@@ -50,6 +50,8 @@ end
 function snk_move()
 	if btn(⬇️) then
 		sn_y+=1
+		sn_x-=1
+		flip(snk)
 	end
 		if btn(⬆️) then
 		sn_y-=1
