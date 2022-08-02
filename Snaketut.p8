@@ -1,0 +1,71 @@
+pico-8 cartridge // http://www.pico-8.com
+version 36
+__lua__
+--main variables
+grid_size=4
+update_rate=5 --fps
+
+function _init()
+	ticks=0
+	snake={} --rep an object array
+	snake.x=2
+	snake.y=3
+	snake.dx=1
+	snake.dy=0
+	
+	--draws snake
+	snake.draw= function(self) --updates self
+		rectfill(self.x*grid_size, 
+		self.y*grid_size,
+		(self.x+1)*grid_size-1, 
+		(self.y+1)*grid_size-1,3)
+	end	
+	
+	--moves snake
+	snake.update=function(self)
+		snake.x+=snake.dx
+		snake.y+=snake.dy
+	end
+	
+end
+
+function _update() --30fps
+
+	--directions
+	if btn(➡️) then
+		snake.dx=1
+		snake.dy=0
+	end
+	if btn(⬆️) then
+		snake.dx=0
+		snake.dy=-1
+	end
+	if btn(⬇️) then
+		snake.dx=0
+		snake.dy=1
+	end
+	if btn(⬅️) then
+		snake.dx=-1
+		snake.dy=0
+	end
+	
+	--sets frame rate for snake
+	ticks+=1
+	if ticks>update_rate then
+		snake:update() --movement auto
+		ticks=0
+	end
+	
+end
+
+function _draw()
+	cls(1)
+	snake:draw() --passes to the first func
+end 
+__gfx__
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
