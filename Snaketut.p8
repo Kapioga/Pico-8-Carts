@@ -14,7 +14,7 @@ function make_apple()
 			rectfill(self.x*grid_size, 
 		self.y*grid_size,
 		(self.x+1)*grid_size-1, 
-		(self.y+1)*grid_size-1,8)
+		(self.y+1)*grid_size-1,9)
 	end
 	return apple --returns new apple
 end
@@ -57,6 +57,18 @@ function _init()
 	snake.update=function(self)
 		snake.x+=snake.dx
 		snake.y+=snake.dy
+		
+		--checks if apple is eaten
+		for part in all(self.body) do
+			orig_x=part.x
+			orig_y=part.y
+			
+			part.x=snake.prev_x
+			part.y=snake.prev_y
+			
+			snake.prev_x=orig_x
+			snake.prev_y=orig_y
+		end
 		
 		--adds snake piece at end
 		snake.prev_x=snake.x
@@ -113,8 +125,11 @@ function _update() --30fps
 end
 
 function _draw()
-	cls(1)
+	cls(6)
 	snake:draw() --passes to the first func
+	
+	--score
+	print(#snake.body,1,1,7)
 	 
 	--summons apples
 	for apple in all(apples) do
